@@ -1,63 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todoey/Screens/taskdata.dart';
 import 'package:todoey/Screens/tasklist.dart';
 
 import 'addtask_screen.dart';
-
 class TaskScreen extends StatelessWidget {
+
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.lightBlueAccent,
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              child: const Padding(
-                padding:  EdgeInsets.only(top: 60,left: 30,right: 30,bottom: 30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CircleAvatar(child: Icon(Icons.list,size: 40,color: Colors.lightBlueAccent,),
-                    backgroundColor: Colors.white,
-                    radius: 30.0,),
-                  Padding(
-                    padding: EdgeInsets.only(top: 10),
-                    child: Text('Todoey',style: TextStyle(fontSize: 40,
-                        fontWeight:FontWeight.w700,color: Colors.white),),
-                  ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 8),
-                      child: Text('12 Tasks',style: TextStyle(color: Colors.white,fontSize: 20),),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(20)),
-                ),
-                child: const Padding(
-                  padding:EdgeInsets.symmetric(horizontal: 20),
-                  child: TaskList(),
-                ),
-              ),
-            )
-          ],
-        ),
-
-      ),
-      floatingActionButton:  FloatingActionButton(backgroundColor: Colors.lightBlueAccent,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.lightBlueAccent,
         onPressed: () {
-          showModalBottomSheet(context: context, builder: (context)=>const AddTaskScreen());
+          showModalBottomSheet(context: context, builder: (context) => AddTaskScreen());
         },
-        child: CircleAvatar(
-          child: Icon(Icons.add,size: 30,),radius: 30,
-        ),
+        child: Icon(Icons.add),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.only(top: 60.0,left: 30.0,right: 30.0,bottom: 30.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 30.0,
+                    child: Icon(Icons.list,size: 30.0,color: Colors.lightBlueAccent,)),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Text('Todoey',style: TextStyle(color: Colors.white,fontSize: 50.0,fontWeight: FontWeight.w700),),
+                Text('${Provider.of<TaskData>(context).taskCount} TASKS',style: TextStyle(color: Colors.white,fontSize: 18),),
+              ],
+            ),
+          ),
+
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0),topRight: Radius.circular(20.0))
+              ),
+              child: TasksList(),
+            ),
+          ),
+        ],
       ),
     );
   }

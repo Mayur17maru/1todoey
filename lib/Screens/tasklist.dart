@@ -1,36 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:todoey/Screens/task.dart';
+import 'package:provider/provider.dart';
+import 'package:todoey/Screens/taskdata.dart';
 import 'package:todoey/Screens/tasktile.dart';
 
-class TaskList extends StatefulWidget {
-  const TaskList({
-    super.key,
-  });
-
-  @override
-  State<TaskList> createState() => _TaskListState();
-}
-
-class _TaskListState extends State<TaskList> {
-  List<Task> tasks=[
-    Task(name: 'Bread',isDone: false),
-    Task(name: 'Milk',isDone: false),
-    
-  ];
+class TasksList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20),
-      child: ListView.builder(itemBuilder: (context,index){
-        return TaskTile(text: tasks[index].name,
-            isChecked: tasks[index].isDone
-        ,checkboxCallback:(checkboxStatus){
-          setState(() {
-            tasks[index].isToggled();
-          });
-            });
-      },itemCount: tasks.length),
+    return Consumer<TaskData>(
+      builder: (context, taskData, child){
+        return ListView.builder(
+          itemBuilder: (context,index){
+            return TaskTile(
+              taskTitle : taskData.Tasks[index].name,
+              isChecked : taskData.Tasks[index].isDone,
+              checkboxCallback : (checkboxState){
+                taskData.updateTask(taskData.Tasks[index]);
+              },
+              longPressCallback: () {
+                taskData.deleteTask(taskData.Tasks[index]);
+              },
+            );
+          },
+          itemCount: taskData.taskCount,
+        );
+      },
     );
   }
 }

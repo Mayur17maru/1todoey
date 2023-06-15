@@ -1,27 +1,28 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+class TaskTile extends StatelessWidget {
 
-class TaskTile extends StatelessWidget{
 
-  TaskTile({required this.text,required this.isChecked, required this.checkboxCallback});
-  String text;
-  bool isChecked=false;
-  Function checkboxCallback;
+  late final bool isChecked;
+  late final String taskTitle;
+  final Function checkboxCallback;
+  final void Function() longPressCallback;
+
+  TaskTile({required this.isChecked,required this.taskTitle,required this.checkboxCallback,required this.longPressCallback});
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(text,style:  TextStyle(fontSize: 25,decoration: isChecked ?TextDecoration.lineThrough:null),),
+      onLongPress: longPressCallback,
+      title: Text(
+        taskTitle,
+        style: TextStyle(decoration: isChecked ? TextDecoration.lineThrough : null),
+      ),
       trailing: Checkbox(
-        activeColor:Colors.lightBlueAccent,
-        value: isChecked, onChanged: (bool? value) {
-        checkboxCallback(value);
-      },
-    )
+        activeColor: Colors.lightBlueAccent,
+        value: isChecked,
+        onChanged: (bool? value) => checkboxCallback(value!),
+      ),
     );
   }
 }
-// (newvalue) {
-// setState(() {
-// isChecked=newvalue!;
-// });
-// },)
+
